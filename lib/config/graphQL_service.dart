@@ -1,15 +1,15 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:medilab_prokit/constants/graphQL.dart';
 
 class GraphQLService {
-  static HttpLink httpLink = HttpLink(
-    endpointGraphQL,
-  );
+  static late GraphQLClient client;
 
-  static final GraphQLClient _client = GraphQLClient(
-    cache: GraphQLCache(store: HiveStore()),
-    link: httpLink,
-  );
-
-  static final GraphQLClient client = _client;
+  static void init(Box<Map<dynamic, dynamic>> box) {
+    HttpLink httpLink = HttpLink(endpointGraphQL);
+    client = GraphQLClient(
+      cache: GraphQLCache(store: HiveStore(box)),
+      link: httpLink,
+    );
+  }
 }

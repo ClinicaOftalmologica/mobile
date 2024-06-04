@@ -77,36 +77,24 @@ class AuthService {
 
   //Login
   Future<Map<String, dynamic>?> loginUser({
-    required String email,
+    required String username,
     required String password,
   }) async {
-    const String loginMutation = """
-      mutation LoginUser(
-        \$email: String!,
-        \$password: String!,
-      ) {
-        login(
-          email: \$email,
-          password: \$password,
-        )
-        {
-          id
-          email
-          username
-          phoneNumber
-          firstName
-          lastName
-          address
-          gender
-          image
-          }
-          }
+    String loginMutation = """
+      mutation Login {
+    login(request: { 
+      username: "$username",
+      password: "$password"
+      }) {
+        token
+    }
+      }
     """;
 
     final MutationOptions options = MutationOptions(
       document: gql(loginMutation),
       variables: {
-        'email': email,
+        'username': username,
         'password': password,
       },
     );

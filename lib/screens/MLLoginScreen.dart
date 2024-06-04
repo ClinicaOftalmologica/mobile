@@ -61,17 +61,24 @@ class _MLLoginScreenState extends State<MLLoginScreen> {
         };
         print('Formulario válido, guardando datos');
         print('Datos del formulario: $formData');
-        MLDashboardScreen().launch(context);
         // Aquí puedes guardar los datos o realizar otra acción
-        /* final response = await authService.loginUser(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (response?['status'] == 'success') {
-        MLDashboardScreen().launch(context);
-      } else {
-        toast(response?['message']);
-      } */
+        final response = await authService.loginUser(
+          username: emailController.text,
+          password: passwordController.text,
+        );
+        if (response?['token'] != null) {
+          if (mounted) {
+            setState(() {
+              _loading = false;
+              MLDashboardScreen().launch(context);
+            });
+          }
+        } else {
+          setState(() {
+            toast('Error al iniciar sesión');
+            _loading = false;
+          });
+        }
       } catch (e) {
         if (mounted) {
           setState(() {
