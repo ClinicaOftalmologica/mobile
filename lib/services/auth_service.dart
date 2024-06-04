@@ -1,6 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../config/graphQL_service.dart';
+import '../model/user.dart';
 
 class AuthService {
   Future<Map<String, dynamic>?> registerUser({
@@ -77,14 +78,13 @@ class AuthService {
 
   //Login
   Future<Map<String, dynamic>?> loginUser({
-    required String username,
-    required String password,
+    required User user,
   }) async {
     String loginMutation = """
       mutation Login {
     login(request: { 
-      username: "$username",
-      password: "$password"
+      username: "${user.username}",
+      password: "${user.password}"
       }) {
         token
     }
@@ -94,8 +94,8 @@ class AuthService {
     final MutationOptions options = MutationOptions(
       document: gql(loginMutation),
       variables: {
-        'username': username,
-        'password': password,
+        'username': user.username,
+        'password': user.password,
       },
     );
 

@@ -13,6 +13,8 @@ import 'package:medilab_prokit/utils/MLImage.dart';
 import 'package:medilab_prokit/utils/MLString.dart';
 import 'package:medilab_prokit/main.dart';
 
+import '../model/user.dart';
+
 class MLLoginScreen extends StatefulWidget {
   static String tag = '/MLLoginScreen';
 
@@ -63,9 +65,9 @@ class _MLLoginScreenState extends State<MLLoginScreen> {
         print('Datos del formulario: $formData');
         // Aquí puedes guardar los datos o realizar otra acción
         final response = await authService.loginUser(
-          username: emailController.text,
-          password: passwordController.text,
-        );
+            user: User(
+                username: emailController.text,
+                password: passwordController.text));
         if (response?['token'] != null) {
           if (mounted) {
             setState(() {
