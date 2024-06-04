@@ -4,6 +4,7 @@ class User {
   final String? email;
   final String? password;
   final String? role;
+  final String? token;
 
   User({
     this.id,
@@ -11,6 +12,7 @@ class User {
     this.email,
     this.password,
     this.role,
+    this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class User {
       email: json['email'],
       password: json['password'],
       role: json['role'],
+      token: json['token'],
     );
   }
 
@@ -30,12 +33,13 @@ class User {
       'email': email,
       'password': password,
       'role': role,
+      'token': token,
     };
   }
 
   @override
   String toString() {
-    return 'User{id: $id, username: $username, email: $email, password: $password, role: $role}';
+    return 'User{id: $id, username: $username, email: $email, password: $password, role: $role, token: $token}';
   }
 
   //tocopy
@@ -45,6 +49,7 @@ class User {
     String? email,
     String? password,
     String? role,
+    String? token,
   }) {
     return User(
       id: id ?? this.id,
@@ -52,6 +57,7 @@ class User {
       email: email ?? this.email,
       password: password ?? this.password,
       role: role ?? this.role,
+      token: token ?? this.token,
     );
   }
 }

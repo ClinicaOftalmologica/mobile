@@ -2,6 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../config/graphQL_service.dart';
 import '../model/user.dart';
+import '../share_preferens/user_preferences.dart';
 
 class AuthService {
   Future<Map<String, dynamic>?> registerUser({
@@ -82,7 +83,7 @@ class AuthService {
   }) async {
     String loginMutation = """
       mutation Login {
-    login(request: { 
+    login(request: {
       username: "${user.username}",
       password: "${user.password}"
       }) {
@@ -105,6 +106,10 @@ class AuthService {
       print('Exception: ${result.exception.toString()}');
       return null;
     }
+
+    User userData = user.copyWith(token: result.data?['login']['token']);
+
+    UserPreferences.saveUserPreferences(userData);
 
     return result.data?['login'];
   }
