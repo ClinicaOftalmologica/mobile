@@ -5,49 +5,26 @@ import '../model/user.dart';
 import '../share_preferens/user_preferences.dart';
 
 class AuthService {
-  Future<Map<String, dynamic>?> registerUser({
-    required String email,
-    required String username,
-    required String password,
-    required String phoneNumber,
-    required String firstName,
-    required String lastName,
-    required String address,
-    required String gender,
-    required String image,
-  }) async {
-    const String registerMutation = """
-      mutation RegisterUser(
-        \$email: String!,
-        \$username: String!,
-        \$password: String!,
-        \$phoneNumber: String!,
-        \$firstName: String!,
-        \$lastName: String!,
-        \$address: String!,
-        \$gender: String!,
-        \$image: String!,
-      ) {
+  Future<Map<String, dynamic>?> registerUser({required User user}) async {
+    String registerMutation = """
+      mutation Register {
         register(
-          email: \$email,
-          username: \$username,
-          password: \$password,
-          phoneNumber: \$phoneNumber,
-          firstName: \$firstName,
-          lastName: \$lastName,
-          address: \$address,
-          image: \$image
+          request: {
+          email: "${user.email}",
+          password: "${user.password}",
+          name: "${user.name}",
+          last_name: "${user.lastName}",
+          address: "${user.address}",
+          ci: "${user.identification}",
+          sexo: "${user.gender}",
+          contact_number: "${user.phoneNumber}",
+          birth_date: "${user.birthDate}",
+          url: "${user.image}"
+          }
           )
         {
-          id
-          email
-          username
-          phoneNumber
-          firstName
-          lastName
-          address
-          gender
-          image
+          token
+          message
         }
       }
     """;
@@ -55,15 +32,16 @@ class AuthService {
     final MutationOptions options = MutationOptions(
       document: gql(registerMutation),
       variables: {
-        'email': email,
-        'username': username,
-        'password': password,
-        'phoneNumber': phoneNumber,
-        'firstName': firstName,
-        'lastName': lastName,
-        'address': address,
-        'gender': gender,
-        'image': image,
+        'email': user.email,
+        'password': user.password,
+        'name': user.name,
+        'last_name': user.lastName,
+        'address': user.address,
+        'ci': user.identification,
+        'sexo': user.gender,
+        'contact_number': user.phoneNumber,
+        'birth_date': user.birthDate,
+        'url': user.image,
       },
     );
 
@@ -73,6 +51,10 @@ class AuthService {
       print('Exception: ${result.exception.toString()}');
       return null;
     }
+
+    User userData = user.copyWith(token: result.data?['register']['token']);
+
+    UserPreferences.saveUserPreferences(userData);
 
     return result.data?['register'];
   }

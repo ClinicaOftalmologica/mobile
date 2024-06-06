@@ -34,7 +34,7 @@ class UserPreferences {
     prefs.token = data.token ?? '';
     prefs.id = data.id ?? '';
     prefs.email = data.email ?? '';
-    prefs.username = data.username;
+    prefs.username = data.username ?? '';
     prefs.role = data.role ?? '';
   }
 

@@ -8,19 +8,20 @@ import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLCommon.dart';
 import 'package:medilab_prokit/main.dart';
 
+import '../model/user.dart';
 import '../services/auth_service.dart';
 import '../services/upload_image_service.dart';
 
 class MLUpdateProfileScreen extends StatefulWidget {
   TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  /* TextEditingController usernameController = TextEditingController(); */
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
   MLUpdateProfileScreen(
       {super.key,
       required this.emailController,
-      required this.usernameController,
+      /* required this.usernameController, */
       required this.passwordController,
       required this.phoneNumberController});
 
@@ -58,45 +59,43 @@ class _MLUpdateProfileScreenState extends State<MLUpdateProfileScreen> {
 
         Map<String, String> formData =
             _profileFormKey.currentState!.getFormData();
-        print('Formulario válido, guardando datos');
-        print('Datos del formulario: $formData');
-
-        print('Datos tercer formulario: ${widget.emailController.text}');
-        print('Datos tercer formulario: ${widget.usernameController.text}');
-        print('Datos tercer formulario: ${widget.passwordController.text}');
-        print('Datos tercer formulario: ${widget.phoneNumberController.text}');
 
         final responseImage = await uploadImageService
             .uploadImage(_profileFormKey.currentState!.getImage());
 
-        print('Response image: $responseImage');
-
-        /* final response = await authService.registerUser(
+        final response = await authService.registerUser(
+            user: User(
+          /* username: widget.usernameController.text, */
           email: widget.emailController.text,
           password: widget.passwordController.text,
-          username: widget.usernameController.text,
           phoneNumber: widget.phoneNumberController.text,
-          firstName: formData['firstName']!,
-          lastName: formData['lastName']!,
-          address: formData['address']!,
           image: responseImage,
-          gender: formData['gender']!);
-      if (response != null) {
-        print('Datos guardados correctamente');
-        MLLoginScreen().launch(context);
-      } else {
-        print('Error al guardar los datos');
-      } */
-
+          name: formData['name'],
+          lastName: formData['lastName'],
+          address: formData['address'],
+          gender: formData['gender'],
+          birthDate: formData['birthDate'],
+          identification: formData['identification'],
+        ));
+        if (response?['token'] != null) {
+          setState(() {
+            finish(context);
+            finish(context);
+            finish(context);
+            finish(context);
+            _loading = false;
+            toast('Datos guardados correctamente');
+            Navigator.pushReplacementNamed(context, '/home');
+          });
+        } else {
+          setState(() {
+            toast('Error al guardar los datos');
+            _loading = false;
+          });
+        }
         setState(() {
           _loading = false;
         });
-
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Datos guardados correctamente'),
-          ));
-        }
       } catch (e) {
         if (mounted) {
           setState(() {

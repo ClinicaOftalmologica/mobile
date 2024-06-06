@@ -11,13 +11,13 @@ import 'package:medilab_prokit/main.dart';
 class MLConfirmPhoneNumberScreen extends StatefulWidget {
   static String tag = '/MLConfirmPhoneNumberScreen';
   TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  /* TextEditingController usernameController = TextEditingController(); */
   TextEditingController passwordController = TextEditingController();
 
   MLConfirmPhoneNumberScreen(
       {super.key,
       required this.emailController,
-      required this.usernameController,
+      /* required this.usernameController, */
       required this.passwordController});
 
   @override
@@ -52,7 +52,7 @@ class _MLConfirmPhoneNumberScreenState
       // Aquí puedes guardar los datos o realizar otra acción
       MLUpdateProfileScreen(
         emailController: widget.emailController,
-        usernameController: widget.usernameController,
+        /* usernameController: widget.usernameController, */
         passwordController: widget.passwordController,
         phoneNumberController: phoneNumberController,
       ).launch(context);

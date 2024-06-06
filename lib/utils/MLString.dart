@@ -111,3 +111,4 @@ const BaseUrl = 'https://assets.iqonic.design/old-themeforest-images/prokit';
 const String? mlLogin_user = 'Usuario o correo';
 const String? mlEmail = 'Correo';
 const String? mlUsername = 'Usuario';
+const String? mlIdentity_card = 'Carnet de identidad';
