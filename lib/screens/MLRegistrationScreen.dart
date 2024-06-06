@@ -18,7 +18,7 @@ class MLRegistrationScreen extends StatefulWidget {
 class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
   // Key Form
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
+  /* TextEditingController usernameController = TextEditingController(); */
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -31,7 +31,7 @@ class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
   @override
   void dispose() {
     changeStatusColor(mlPrimaryColor);
-    usernameController.dispose();
+    /* usernameController.dispose(); */
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -46,7 +46,7 @@ class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
     if (form != null && form.validate()) {
       // El formulario es válido, recupera los datos
       Map<String, String> formData = {
-        'username': usernameController.text,
+        /* 'username': usernameController.text, */
         'email': emailController.text,
         'password': passwordController.text,
       };
@@ -54,7 +54,7 @@ class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
       print('Datos del formulario: $formData');
       MLConfirmPhoneNumberScreen(
               emailController: emailController,
-              usernameController: usernameController,
+              /* usernameController: usernameController, */
               passwordController: passwordController)
           .launch(context);
       // Aquí puedes guardar los datos o realizar otra acción
@@ -129,7 +129,7 @@ class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
                           ),
                         ),
                       ),
-                      16.height,
+                      /* 16.height,
                       AppTextField(
                         controller: usernameController,
                         validator: (value) {
@@ -149,7 +149,7 @@ class _MLRegistrationScreenState extends State<MLRegistrationScreen> {
                                 color: mlColorLightGrey.withOpacity(0.2)),
                           ),
                         ),
-                      ),
+                      ), */
                       16.height,
                       AppTextField(
                         textFieldType: TextFieldType.PASSWORD,

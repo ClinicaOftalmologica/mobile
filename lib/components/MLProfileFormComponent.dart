@@ -7,14 +7,14 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLString.dart';
 
-import 'MLCountryPIckerComponent.dart';
+/* import 'MLCountryPIckerComponent.dart'; */
 
 class MLProfileFormComponent extends StatefulWidget {
   static String tag = '/MLProfileFormComponent';
 
   final GlobalKey<FormState> formKey;
 
-  MLProfileFormComponent({Key? key, required this.formKey}) : super(key: key);
+  const MLProfileFormComponent({super.key, required this.formKey});
 
   @override
   MLProfileFormComponentState createState() => MLProfileFormComponentState();
@@ -26,6 +26,9 @@ class MLProfileFormComponentState extends State<MLProfileFormComponent> {
   /* TextEditingController phoneNumberController = TextEditingController(); */
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
+  final TextEditingController _birthDateController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
   String dropdownValue = 'Mujer';
@@ -52,7 +55,24 @@ class MLProfileFormComponentState extends State<MLProfileFormComponent> {
     /* phoneNumberController.dispose(); */
     _addressController.dispose();
     _genderController.dispose();
+    _identificationController.dispose();
+    _birthDateController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        _birthDateController.text =
+            "${picked.day}-${picked.month < 10 ? '0${picked.month}' : picked.month}-${picked.year}";
+      });
+    }
   }
 
   // Método para obtener los datos del formulario
@@ -63,6 +83,8 @@ class MLProfileFormComponentState extends State<MLProfileFormComponent> {
       /* 'phoneNumber': phoneNumberController.text, */
       'address': _addressController.text,
       'gender': _genderController.text,
+      'identification': _identificationController.text,
+      'birthDate': _birthDateController.text,
     };
   }
 
@@ -187,27 +209,52 @@ class MLProfileFormComponentState extends State<MLProfileFormComponent> {
             ),
           ),
           16.height,
-          /* Text('Fecha de nacimiento*', style: primaryTextStyle()),
+          Text('CI*', style: primaryTextStyle()),
           AppTextField(
-            controller: genderController,
+            controller: _identificationController,
             validator: (value) {
-              if (value!.isEmpty)
-                return 'Por favor, ingrese su fecha de nacimiento';
+              if (value!.isEmpty) {
+                return 'Por favor, ingrese su cedula de identidad';
+              }
               return null;
             },
             textFieldType: TextFieldType.OTHER,
             decoration: InputDecoration(
-              hintText: mlDate_format!,
+              hintText: mlIdentity_card!,
               hintStyle: secondaryTextStyle(size: 16),
-              suffixIcon:
-                  Icon(Icons.calendar_today_outlined, color: mlColorBlue),
               enabledBorder: UnderlineInputBorder(
                 borderSide:
                     BorderSide(color: mlColorLightGrey.withOpacity(0.2)),
               ),
             ),
           ),
-          16.height, */
+          16.height,
+          Text('Fecha de nacimiento*', style: primaryTextStyle()),
+          AppTextField(
+            onTap: () => _selectDate(context),
+            textFieldType: TextFieldType.OTHER,
+            controller: _birthDateController,
+            decoration: InputDecoration(
+              hintText: mlDate_format!,
+              hintStyle: secondaryTextStyle(size: 16),
+              suffixIcon: Icon(
+                Icons.calendar_today_outlined,
+                color: mlColorBlue,
+              ).onTap(() => _selectDate(context)),
+              enabledBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: mlColorLightGrey.withOpacity(0.2)),
+              ),
+            ),
+            readOnly: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor, ingrese su fecha de nacimiento';
+              }
+              return null;
+            },
+          ),
+          16.height,
           /* Text('Numero de telefono*', style: primaryTextStyle()),
           Row(
             children: [

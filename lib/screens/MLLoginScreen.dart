@@ -72,7 +72,7 @@ class _MLLoginScreenState extends State<MLLoginScreen> {
           if (mounted) {
             setState(() {
               _loading = false;
-              Navigator.pushNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/home');
             });
           }
         } else {
