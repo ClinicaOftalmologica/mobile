@@ -57,7 +57,7 @@ const String? mlAddress = 'Ingrese su dirección...';
 /* const String? mlRegister = 'Register'; */
 const String? mlRegister = 'Registrarse';
 
-const String? mlWelcome = 'Welcome back!';
+const String? mlWelcome = 'Bienvenido a Medilab';
 const String? mlProfile_name = 'Hi Kaixa,';
 const String? mlDepartment = 'Departments';
 const String? mlView_all = 'View all';
