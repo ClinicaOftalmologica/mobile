@@ -6,6 +6,9 @@ import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLString.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../screens/MLMedicationScreen.dart';
+import '../screens/MLReservationsScreen.dart';
+
 class MLCalendarFragment extends StatefulWidget {
   static String tag = '/MLCalendarFragment';
 
@@ -13,7 +16,8 @@ class MLCalendarFragment extends StatefulWidget {
   MLCalendarFragmentState createState() => MLCalendarFragmentState();
 }
 
-class MLCalendarFragmentState extends State<MLCalendarFragment> with SingleTickerProviderStateMixin {
+class MLCalendarFragmentState extends State<MLCalendarFragment>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -48,8 +52,10 @@ class MLCalendarFragmentState extends State<MLCalendarFragment> with SingleTicke
           children: [
             Row(
               children: [
-                Text(mlMy_activity!, style: boldTextStyle(size: 20, color: white)).expand(),
-                Text(mlHistory!, style: secondaryTextStyle(color: white)).paddingRight(8.0),
+                Text(mlMenu!, style: boldTextStyle(size: 20, color: white))
+                    .expand(),
+                Text(mlHistory!, style: secondaryTextStyle(color: white))
+                    .paddingRight(8.0),
               ],
             ).paddingAll(16.0),
             8.width,
@@ -70,7 +76,7 @@ class MLCalendarFragmentState extends State<MLCalendarFragment> with SingleTicke
                     labelStyle: primaryTextStyle(size: 14),
                     tabs: [
                       Tab(text: mlAppointment),
-                      Tab(text: mlDelivery),
+                      Tab(text: mlServation),
                       Tab(text: mlMedication),
                     ],
                   ),
@@ -78,8 +84,8 @@ class MLCalendarFragmentState extends State<MLCalendarFragment> with SingleTicke
                     controller: _tabController,
                     children: [
                       MLAppointmentDetailListComponent(),
-                      PurchaseMoreScreen(),
-                      PurchaseMoreScreen(),
+                      MLReservationsScreen(),
+                      MLMedicationScreen(),
                     ],
                   ).expand(),
                 ],

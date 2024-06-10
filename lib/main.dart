@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,6 +16,8 @@ AppStore appStore = AppStore();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  cameras = await availableCameras();
 
   await initialize(aLocaleLanguageList: languageList());
 
@@ -57,8 +60,8 @@ class MyApp extends StatelessWidget {
             : AppThemeData.darkTheme,
         navigatorKey: navigatorKey,
         scrollBehavior: SBehavior(),
-        supportedLocales: LanguageDataModel.languageLocales(),
-        localeResolutionCallback: (locale, supportedLocales) => locale,
+        /* supportedLocales: LanguageDataModel.languageLocales(), */
+        /* localeResolutionCallback: (locale, supportedLocales) => locale, */
       ),
     );
   }

@@ -57,7 +57,7 @@ const String? mlAddress = 'Ingrese su dirección...';
 /* const String? mlRegister = 'Register'; */
 const String? mlRegister = 'Registrarse';
 
-const String? mlWelcome = 'Welcome back!';
+const String? mlWelcome = 'Bienvenido a Medilab';
 const String? mlProfile_name = 'Hi Kaixa,';
 const String? mlDepartment = 'Departments';
 const String? mlView_all = 'View all';
@@ -85,11 +85,11 @@ const String? mlCovid_desc2 =
     ' Nevertheless, no scientific evidence has been reported so far with regards to the'
     ' impact on road safety and driving behavior';
 
-const String? mlMy_activity = 'My Activity';
+const String? mlMenu = 'Menu';
 const String? mlHistory = 'History';
-const String? mlAppointment = 'Appointment';
-const String? mlDelivery = 'Delivery';
-const String? mlMedication = 'Medication';
+const String? mlAppointment = 'Horarios';
+const String? mlServation = 'Reservaciones';
+const String? mlMedication = 'Medicación';
 const String? mlAppointment_detail = 'Appointment Detail';
 
 const String? mlLabel_medicine_name = 'Medicine Name';
@@ -112,3 +112,4 @@ const String? mlLogin_user = 'Usuario o correo';
 const String? mlEmail = 'Correo';
 const String? mlUsername = 'Usuario';
 const String? mlIdentity_card = 'Carnet de identidad';
+const String? mlSave_reservation = 'Guardar Reservación';

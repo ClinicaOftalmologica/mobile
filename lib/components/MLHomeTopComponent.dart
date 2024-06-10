@@ -7,6 +7,8 @@ import 'package:medilab_prokit/utils/MLDataProvider.dart';
 import 'package:medilab_prokit/utils/MLImage.dart';
 import 'package:medilab_prokit/utils/MLString.dart';
 
+import '../share_preferens/user_preferences.dart';
+
 class MLHomeTopComponent extends StatefulWidget {
   static String tag = '/MLHomeTopComponent';
 
@@ -17,6 +19,8 @@ class MLHomeTopComponent extends StatefulWidget {
 class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
   int counter = 2;
   List<MLServicesData> data = mlServiceDataList();
+
+  final prefs = UserPreferences();
 
   @override
   void initState() {
@@ -36,7 +40,8 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
       margin: EdgeInsets.only(bottom: 16.0),
       decoration: boxDecorationWithRoundedCorners(
         backgroundColor: mlColorDarkBlue,
-        borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, 80.0)),
+        borderRadius: BorderRadius.vertical(
+            bottom: Radius.elliptical(MediaQuery.of(context).size.width, 80.0)),
       ),
       child: Column(
         children: [
@@ -46,14 +51,20 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(child: Image.asset(ml_ic_profile_picture!), radius: 22, backgroundColor: mlColorCyan),
+                  CircleAvatar(
+                      child: Image.asset(ml_ic_profile_picture!),
+                      radius: 22,
+                      backgroundColor: mlColorCyan),
                   8.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(mlProfile_name!, style: boldTextStyle(color: whiteColor)),
+                      Text(prefs.email,
+                          style: boldTextStyle(color: whiteColor)),
                       4.height,
-                      Text(mlWelcome!, style: secondaryTextStyle(color: white.withOpacity(0.7))),
+                      Text(mlWelcome!,
+                          style: secondaryTextStyle(
+                              color: white.withOpacity(0.7))),
                     ],
                   ),
                 ],
@@ -70,8 +81,10 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
                         right: 0.0,
                         child: Container(
                           padding: EdgeInsets.all(2),
-                          decoration: boxDecorationWithRoundedCorners(backgroundColor: mlColorRed),
-                          constraints: BoxConstraints(minWidth: 12, minHeight: 12),
+                          decoration: boxDecorationWithRoundedCorners(
+                              backgroundColor: mlColorRed),
+                          constraints:
+                              BoxConstraints(minWidth: 12, minHeight: 12),
                           child: Text(
                             counter.toString(),
                             style: boldTextStyle(size: 8, color: white),
@@ -91,7 +104,8 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
             margin: EdgeInsets.only(right: 16.0, left: 16.0),
             transform: Matrix4.translationValues(0, 16.0, 0),
             alignment: Alignment.center,
-            decoration: boxDecorationRoundedWithShadow(12, backgroundColor: context.cardColor),
+            decoration: boxDecorationRoundedWithShadow(12,
+                backgroundColor: context.cardColor),
             child: Wrap(
               alignment: WrapAlignment.center,
               direction: Axis.horizontal,
@@ -99,13 +113,17 @@ class _MLHomeTopComponentState extends State<MLHomeTopComponent> {
               children: data.map(
                 (e) {
                   return Container(
-                    constraints: BoxConstraints(minWidth: context.width() * 0.25),
+                    constraints:
+                        BoxConstraints(minWidth: context.width() * 0.25),
                     padding: EdgeInsets.only(top: 20, bottom: 20.0),
                     child: Column(
                       children: [
-                        Image.asset(e.image!, width: 28, height: 28, fit: BoxFit.fill),
+                        Image.asset(e.image!,
+                            width: 28, height: 28, fit: BoxFit.fill),
                         8.height,
-                        Text(e.title.toString(), style: boldTextStyle(size: 12), textAlign: TextAlign.center),
+                        Text(e.title.toString(),
+                            style: boldTextStyle(size: 12),
+                            textAlign: TextAlign.center),
                       ],
                     ),
                   ).onTap(

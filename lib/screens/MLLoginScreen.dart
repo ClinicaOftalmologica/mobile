@@ -65,14 +65,13 @@ class _MLLoginScreenState extends State<MLLoginScreen> {
         print('Datos del formulario: $formData');
         // Aquí puedes guardar los datos o realizar otra acción
         final response = await authService.loginUser(
-            user: User(
-                username: emailController.text,
-                password: passwordController.text));
+            email: emailController.text, password: passwordController.text);
         if (response?['token'] != null) {
           if (mounted) {
             setState(() {
               _loading = false;
-              Navigator.pushReplacementNamed(context, '/home');
+              /* Navigator.pushReplacementNamed(context, '/home'); */
+              Navigator.pushNamed(context, '/camera');
             });
           }
         } else {
