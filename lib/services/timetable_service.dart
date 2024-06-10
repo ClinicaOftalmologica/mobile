@@ -11,6 +11,22 @@ class TimetableService {
           id
           date
           time
+          doctor {
+            id
+            name
+            lastName
+            address
+            ci
+            sexo
+            contactNumber
+            titulo
+            user {
+                id
+                username
+                email
+                role
+            }
+          }
         }
       }
     """;

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:medilab_prokit/main.dart';
+import 'package:medilab_prokit/services/reservation_service.dart';
 import 'package:medilab_prokit/services/timetable_service.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:medilab_prokit/model/MLAppointmentData.dart';
-import 'package:medilab_prokit/screens/MLAppintmentDetailScreen.dart';
 import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLDataProvider.dart';
 import 'package:medilab_prokit/utils/MLString.dart';
 import 'package:medilab_prokit/model/timetable.dart';
+
+import '../main.dart';
 
 class MLAppointmentDetailListComponent extends StatefulWidget {
   static String tag = '/MLAppointmentDetailListComponent';
@@ -19,11 +20,10 @@ class MLAppointmentDetailListComponent extends StatefulWidget {
 
 class MLAppointmentDetailListComponentState
     extends State<MLAppointmentDetailListComponent> {
-  String? time = 'Today, 9:30 PM';
   List<MLAppointmentData> data = mlAppointmentDataList();
 
   TimetableService timetableService = TimetableService();
-
+  ReservationService reservationService = ReservationService();
   List<Timetable> timetable = [];
 
   @override
@@ -41,24 +41,19 @@ class MLAppointmentDetailListComponentState
   }
 
   @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    /* timetableService.getTimetable().then((value) {
-      print(value);
-    }); */
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      physics: AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          16.height,
-          Text('October', style: boldTextStyle()),
           16.height,
           Column(
             children: timetable.map(
@@ -66,7 +61,7 @@ class MLAppointmentDetailListComponentState
                 return Stack(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: const EdgeInsets.only(top: 8.0),
                       decoration: boxDecorationWithRoundedCorners(
                         backgroundColor: appStore.isDarkModeOn
                             ? scaffoldDarkColor
@@ -106,31 +101,26 @@ class MLAppointmentDetailListComponentState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      /* Text((e.department).validate(),
+                                      Text((e.Date.toString().substring(0, 3)),
                                           style: boldTextStyle(size: 18)),
                                       8.height,
-                                      Text((e.doctor).validate(),
+                                      Text(
+                                          ('Doctor: ${e.doctor!.name} ${e.doctor!.lastName}')
+                                              .validate(),
                                           style: secondaryTextStyle()),
-                                      8.height,
-                                      Text('Patient: ' + (e.patient).validate(),
-                                          style: secondaryTextStyle()), */
                                     ],
                                   ),
                                   Container(
                                     alignment: Alignment.topCenter,
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     decoration: boxDecorationWithRoundedCorners(
                                       backgroundColor: Colors.transparent,
                                       borderRadius: radius(30),
                                       border: Border.all(
                                           color: Colors.grey.withOpacity(0.1)),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.notifications_none,
-                                      /* color: e.department == 'General Care'
-                                          ? mlColorBlue
-                                          : Colors.grey.shade400,
-                                      size: 24, */
                                     ),
                                   ).paddingBottom(16.0)
                                 ],
@@ -138,7 +128,7 @@ class MLAppointmentDetailListComponentState
                             ],
                           ).paddingOnly(right: 16.0, left: 16.0),
                           8.height,
-                          Divider(thickness: 0.5),
+                          const Divider(thickness: 0.5),
                           8.height,
                           Row(
                             children: [
@@ -147,7 +137,7 @@ class MLAppointmentDetailListComponentState
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(mlAppointment_detail!,
+                                  Text(mlSave_reservation!,
                                       style: secondaryTextStyle(
                                           color: mlColorDarkBlue)),
                                   4.width,
@@ -156,7 +146,33 @@ class MLAppointmentDetailListComponentState
                                 ],
                               ).onTap(
                                 () {
-                                  /* MLAppointmentDetailScreen().launch(context); */
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Confirm Reservation'),
+                                        content: const Text(
+                                            'Quieres confirmar la reservación?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Cierra el diálogo
+                                            },
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(context).pop();
+                                              _confirmReservation(e.id);
+                                            },
+                                            child: const Text('Confirm'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                               ).expand()
                             ],
@@ -165,19 +181,6 @@ class MLAppointmentDetailListComponentState
                         ],
                       ),
                     ).paddingBottom(16.0),
-                    /* Positioned(
-                      left: 16.0,
-                      child: Container(
-                        padding: EdgeInsets.all(2.0),
-                        decoration: boxDecorationWithRoundedCorners(
-                            backgroundColor: mlColorDarkBlue,
-                            borderRadius: radius(20)),
-                        child: Text(
-                          (e.service.validate()),
-                          style: secondaryTextStyle(color: white),
-                        ).paddingOnly(right: 10.0, left: 10.0),
-                      ),
-                    ), */
                   ],
                 );
               },
@@ -186,5 +189,29 @@ class MLAppointmentDetailListComponentState
         ],
       ),
     );
+  }
+
+  Future<void> _confirmReservation(String? idTimeTable) async {
+    try {
+      final response = await reservationService.createReservation(
+        idTimeTable: idTimeTable!,
+      );
+      if (response != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Reservation confirmed!')),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error confirming reservation')),
+        );
+      }
+    } catch (e) {
+      print(e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error confirming reservation')),
+        );
+      }
+    }
   }
 }

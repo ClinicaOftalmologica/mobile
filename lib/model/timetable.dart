@@ -1,12 +1,16 @@
+import 'package:medilab_prokit/model/doctor.dart';
+
 class Timetable {
   final String? id;
   final String? Date;
   final String? Time;
+  final Doctor? doctor;
 
   Timetable({
     this.id,
     this.Date,
     this.Time,
+    this.doctor,
   });
 
   factory Timetable.fromJson(Map<String, dynamic> json) {
@@ -14,6 +18,7 @@ class Timetable {
       id: json['id'],
       Date: json['date'],
       Time: json['time'],
+      doctor: Doctor.fromJson(json['doctor']),
     );
   }
 
@@ -22,6 +27,7 @@ class Timetable {
       'id': id,
       'Date': Date,
       'Time': Time,
+      'doctor': doctor?.toJson(),
     };
   }
 
@@ -29,16 +35,18 @@ class Timetable {
     String? id,
     String? Date,
     String? Time,
+    Doctor? doctor,
   }) {
     return Timetable(
       id: id ?? this.id,
       Date: Date ?? this.Date,
       Time: Time ?? this.Time,
+      doctor: doctor ?? this.doctor,
     );
   }
 
   @override
   String toString() {
-    return 'Timetable{id: $id, Date: $Date, Time: $Time}';
+    return 'Timetable{id: $id, Date: $Date, Time: $Time, doctor: $doctor}';
   }
 }

@@ -64,19 +64,16 @@ class _MLUpdateProfileScreenState extends State<MLUpdateProfileScreen> {
             .uploadImage(_profileFormKey.currentState!.getImage());
 
         final response = await authService.registerUser(
-            user: User(
-          /* username: widget.usernameController.text, */
-          email: widget.emailController.text,
-          password: widget.passwordController.text,
-          phoneNumber: widget.phoneNumberController.text,
-          image: responseImage,
-          name: formData['name'],
-          lastName: formData['lastName'],
-          address: formData['address'],
-          gender: formData['gender'],
-          birthDate: formData['birthDate'],
-          identification: formData['identification'],
-        ));
+            email: widget.emailController.text,
+            password: widget.passwordController.text,
+            name: formData['name']!,
+            lastName: formData['lastName']!,
+            address: formData['address']!,
+            identification: formData['identification']!,
+            image: responseImage,
+            birthDate: formData['birthDate']!,
+            gender: formData['gender']!,
+            phoneNumber: widget.phoneNumberController.text);
         if (response?['token'] != null) {
           setState(() {
             finish(context);
@@ -84,12 +81,12 @@ class _MLUpdateProfileScreenState extends State<MLUpdateProfileScreen> {
             finish(context);
             finish(context);
             _loading = false;
-            toast('Datos guardados correctamente');
+            toast('Se ha registrado correctamente');
             Navigator.pushReplacementNamed(context, '/home');
           });
         } else {
           setState(() {
-            toast('Error al guardar los datos');
+            toast(response?['message']);
             _loading = false;
           });
         }

@@ -6,17 +6,35 @@ import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLDataProvider.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../share_preferens/user_preferences.dart';
+
 class MLProfileBottomComponent extends StatefulWidget {
   static String tag = '/MLProfileBottomComponent';
 
   @override
-  MLProfileBottomComponentState createState() => MLProfileBottomComponentState();
+  MLProfileBottomComponentState createState() =>
+      MLProfileBottomComponentState();
 }
 
 class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
-  List<String> data = <String>['Membership card', 'Dependents', 'Health care', 'Refer friends and family'];
-  List<String> categoriesData = <String>['Prescription', 'Medical Record', 'Medical Test', 'Health Tracking'];
-  List<Color> customColor = <Color>[Colors.blueAccent, Colors.orangeAccent, Colors.pinkAccent, Colors.cyan];
+  List<String> data = <String>[
+    'Membership card',
+    'Dependents',
+    'Health care',
+    'Refer friends and family'
+  ];
+  List<String> categoriesData = <String>[
+    'Prescription',
+    'Medical Record',
+    'Medical Test',
+    'Health Tracking'
+  ];
+  List<Color> customColor = <Color>[
+    Colors.blueAccent,
+    Colors.orangeAccent,
+    Colors.pinkAccent,
+    Colors.cyan
+  ];
   List<MLProfileCardData> mlProfileData = mlProfileDataList();
 
   @override
@@ -24,6 +42,8 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
     super.initState();
     init();
   }
+
+  final prefs = UserPreferences();
 
   Future<void> init() async {
     //
@@ -99,13 +119,16 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
           Container(
             // margin: EdgeInsets.only(bottom: 16.0),
             padding: EdgeInsets.all(8.0),
-            decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+            decoration: boxDecorationRoundedWithShadow(8,
+                backgroundColor: context.cardColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Image.asset('images/ic_theme.png', height: 24, width: 24, color: Colors.blue).paddingOnly(left: 4),
+                    Image.asset('images/ic_theme.png',
+                            height: 24, width: 24, color: Colors.blue)
+                        .paddingOnly(left: 4),
                     8.width,
                     Text('DarkMode', style: primaryTextStyle()),
                   ],
@@ -131,13 +154,15 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                 return Container(
                   margin: EdgeInsets.only(bottom: 16.0),
                   padding: EdgeInsets.all(12.0),
-                  decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+                  decoration: boxDecorationRoundedWithShadow(8,
+                      backgroundColor: context.cardColor),
                   child: Row(
                     children: [
                       Icon(Icons.tab, size: 24, color: Colors.blue),
                       8.width,
                       Text(e.validate(), style: primaryTextStyle()).expand(),
-                      Icon(Icons.arrow_forward_ios, color: Colors.grey[300], size: 16),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Colors.grey[300], size: 16),
                     ],
                   ),
                 ).onTap(
@@ -147,6 +172,36 @@ class MLProfileBottomComponentState extends State<MLProfileBottomComponent> {
                 );
               },
             ).toList(),
+          ),
+          //Cerar Sesión
+          Container(
+            margin: EdgeInsets.only(top: 16.0),
+            padding: EdgeInsets.all(12.0),
+            decoration: boxDecorationRoundedWithShadow(8,
+                backgroundColor: context.cardColor),
+            child: Row(
+              children: [
+                Icon(Icons.logout, size: 24, color: Colors.red),
+                8.width,
+                Text('Cerrar Sesión', style: primaryTextStyle()).expand(),
+                Icon(Icons.arrow_forward_ios,
+                    color: Colors.grey[300], size: 16),
+              ],
+            ),
+          ).onTap(
+            () {
+              prefs.clearUser();
+              SharedPreferences.getInstance().then((value) {
+                value.clear();
+              });
+              toasty(context, 'Cerrar Sesión');
+              finish(context);
+
+              print(prefs.token);
+
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
           ),
         ],
       ),

@@ -5,6 +5,8 @@ import 'package:medilab_prokit/components/MLProfileBottomComponent.dart';
 import 'package:medilab_prokit/utils/MLColors.dart';
 import 'package:medilab_prokit/utils/MLImage.dart';
 
+import '../share_preferens/user_preferences.dart';
+
 class MLProfileFragment extends StatefulWidget {
   static String tag = '/MLProfileFragment';
 
@@ -13,6 +15,8 @@ class MLProfileFragment extends StatefulWidget {
 }
 
 class MLProfileFragmentState extends State<MLProfileFragment> {
+  final prefs = UserPreferences();
+
   @override
   void initState() {
     super.initState();
@@ -44,11 +48,16 @@ class MLProfileFragmentState extends State<MLProfileFragment> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(child: Image.asset(ml_ic_profile_picture!), radius: 40.0, backgroundColor: mlColorCyan),
+                      CircleAvatar(
+                          child: Image.asset(ml_ic_profile_picture!),
+                          radius: 40.0,
+                          backgroundColor: mlColorCyan),
                       8.height,
-                      Text('Kaixa Pham', style: boldTextStyle(color: white, size: 24)),
+                      Text('Kaixa Pham',
+                          style: boldTextStyle(color: white, size: 24)),
                       4.height,
-                      Text('johnsmith@gmail.com', style: secondaryTextStyle(color: white, size: 16)),
+                      Text(prefs.email,
+                          style: secondaryTextStyle(color: white, size: 16)),
                     ],
                   ),
                 ),

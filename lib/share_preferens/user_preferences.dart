@@ -21,12 +21,14 @@ class UserPreferences {
   String get email => _prefs.getString('email') ?? '';
   String get username => _prefs.getString('username') ?? '';
   String get role => _prefs.getString('role') ?? '';
+  bool get isLogged => _prefs.getBool('isLogged') ?? false;
 
   set token(String token) => _prefs.setString('token', token);
   set id(String id) => _prefs.setString('id', id);
   set email(String email) => _prefs.setString('email', email);
   set username(String username) => _prefs.setString('username', username);
   set role(String role) => _prefs.setString('role', role);
+  set isLogged(bool isLogged) => _prefs.setBool('isLogged', isLogged);
 
   static void saveUserPreferences(User data) {
     final prefs = UserPreferences();
@@ -36,6 +38,7 @@ class UserPreferences {
     prefs.email = data.email ?? '';
     prefs.username = data.username ?? '';
     prefs.role = data.role ?? '';
+    prefs.isLogged = true;
   }
 
   void clearUser() {
@@ -44,5 +47,6 @@ class UserPreferences {
     _prefs.setString('email', '');
     _prefs.setString('username', '');
     _prefs.setString('role', '');
+    _prefs.setBool('isLogged', false);
   }
 }

@@ -9,8 +9,9 @@ class GraphQLService {
 
   static void init(Box<Map<dynamic, dynamic>> box) {
     HttpLink httpLink = HttpLink(endpointGraphQL);
-    final token = 'Bearer ${UserPreferences().token}';
-    final AuthLink authLink = AuthLink(getToken: () async => token);
+    final prefs = UserPreferences();
+    final token = prefs.token;
+    final AuthLink authLink = AuthLink(getToken: () async => 'Bearer $token');
     final Link link = authLink.concat(httpLink);
     client = GraphQLClient(
       cache: GraphQLCache(store: HiveStore(box)),
