@@ -66,7 +66,7 @@ class _MLUpdateProfileScreenState extends State<MLUpdateProfileScreen> {
         final response = await authService.registerUser(
             email: widget.emailController.text,
             password: widget.passwordController.text,
-            name: formData['name']!,
+            name: formData['firstName']!,
             lastName: formData['lastName']!,
             address: formData['address']!,
             identification: formData['identification']!,

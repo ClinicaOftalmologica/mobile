@@ -84,6 +84,10 @@ class _MLReservationsScreenState extends State<MLReservationsScreen> {
                           style: secondaryTextStyle()),
                       8.height,
                       Text(e.state, style: secondaryTextStyle()),
+                      8.height,
+                      Text(
+                          'Hora: ${e.timetable?.Time.toString().substring(0, 5)}',
+                          style: secondaryTextStyle()),
                       //Cancelar
                       if (e.state == 'PENDIENTE')
                         Container(
