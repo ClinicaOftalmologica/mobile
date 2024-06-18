@@ -63,6 +63,18 @@ class _MLCameraScreenState extends State<MLCameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Camera'),
+          backgroundColor: Colors.black,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.close),
+            )
+          ],
+        ),
         backgroundColor: Colors.black,
         body: Stack(
           children: [
@@ -175,7 +187,8 @@ class _MLCameraScreenState extends State<MLCameraScreen> {
                           ),
                         ),
                       ),
-                      CameraWidgets().buttonCapture(context, _controller, isLoading),
+                      CameraWidgets()
+                          .buttonCapture(context, _controller, isLoading),
                       CameraWidgets().buttonFlash(context, _controller)
                     ],
                   ),

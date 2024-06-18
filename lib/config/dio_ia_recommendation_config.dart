@@ -6,7 +6,7 @@ import '../share_preferens/user_preferences.dart';
 
 class DioConfig {
   //   static const String baseUrl = 'http://10.0.2.2:5000';
-  static const String baseUrl = 'http://192.168.0.202:3000';
+  static const String baseUrl = 'http://18.191.95.207:3000';
 
   static Map<String, dynamic> getHeaders() {
     final prefs = UserPreferences();

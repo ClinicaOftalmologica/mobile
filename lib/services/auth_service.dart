@@ -133,6 +133,7 @@ class AuthService {
         data: formData,
       );
 
+      prefs.isLogged = true;
       var data = response.data;
 
       return data;

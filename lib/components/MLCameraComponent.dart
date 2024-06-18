@@ -125,6 +125,7 @@ class CameraWidgets {
   Widget buttonCapture(context, controller, ValueNotifier<bool> isLoading) {
     return GestureDetector(
       onTap: () async {
+        isLoading.value = false;
         if (!controller.value.isInitialized) {
           return;
         }
@@ -152,11 +153,9 @@ class CameraWidgets {
           } else {
             toast('Error al ingresar');
           }
-        } on CameraException catch (e) {
+        } catch (e) {
           isLoading.value = false;
-          debugPrint("Error occurred while taking picture: $e");
           toast('Error al tomar la foto');
-          return;
         }
         isLoading.value = false;
       },
